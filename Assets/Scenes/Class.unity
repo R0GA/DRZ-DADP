@@ -504,6 +504,7 @@ MonoBehaviour:
   moveSpeed: 5
   lookSpeed: 0.25
   gravity: -9.81
+  jumpHeight: 1
   playerCamera: {fileID: 228084839}
 --- !u!1 &577127417
 GameObject:
