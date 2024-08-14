@@ -12,12 +12,16 @@ public class FirstPersonControls : MonoBehaviour
     public float gravity = -9.81f; // Gravity value
     public float jumpHeight = 1.0f; // Height of the jump
     public Transform playerCamera; // Reference to the player's camera
-                                   // Private variables to store input values and the character controller
+    public float sprintSpeed;
+    public float baseSpeed;
+    public float crouchSpeed;
+    // Private variables to store input values and the character controller
     private Vector2 moveInput; // Stores the movement input from the player
     private Vector2 lookInput; // Stores the look input from the player
     private float verticalLookRotation = 0f; // Keeps track of vertical camera rotation for clamping
     private Vector3 velocity; // Velocity of the player
     private CharacterController characterController; // Reference to the CharacterController component
+    private bool isSprinting;
 
     [Header("SHOOTING SETTINGS")]
     [Space(5)]
@@ -32,11 +36,10 @@ public class FirstPersonControls : MonoBehaviour
     private GameObject heldObject; // Reference to the currently held object
     public float pickUpRange = 3f; // Range within which objects can be picked up
 
-    [Header("PICKING UP SETTINGS")]
+    [Header("Crouch UP SETTINGS")]
     [Space(5)]
     public float crouchHeight = 1f;
     public float standingHeight = 2f;
-    public float crouchSpeed = 1.5f;
     private bool isCrouching = false;
 
 
@@ -53,6 +56,9 @@ public class FirstPersonControls : MonoBehaviour
 
         // Enable the input actions
         playerInput.Player.Enable();
+
+        playerInput.Player.Sprint.performed += ctx => isSprinting = true;
+        playerInput.Player.Sprint.canceled += ctx => isSprinting = false;
 
         // Subscribe to the movement input events
         playerInput.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>(); // Update moveInput when movement input is performed
@@ -72,7 +78,6 @@ public class FirstPersonControls : MonoBehaviour
         playerInput.Player.PickUp.performed += ctx => PickUpObject(); // Call the PickUpObject method when pick-up input is performed
 
         playerInput.Player.Crouch.performed += ctx => ToggleCrouch();
-
     }
 
     private void Update()
@@ -85,6 +90,13 @@ public class FirstPersonControls : MonoBehaviour
 
     public void Move()
     {
+        if (isSprinting == true && isCrouching == false && characterController.isGrounded == true)
+            moveSpeed = sprintSpeed;
+        else if (isCrouching == true && characterController.isGrounded == true)
+            moveSpeed = crouchSpeed;
+        else if (isSprinting ==false && isCrouching == false && characterController.isGrounded == true)
+            moveSpeed = baseSpeed;
+
         // Create a movement vector based on the input
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
 
