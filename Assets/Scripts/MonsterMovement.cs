@@ -9,16 +9,23 @@ public class MonsterMovement : MonoBehaviour
     public float speed;
     public bool onPatrol = true;
     public float visionRange;
+    public float rotateInterval;
+    public float rotateAmount;
+    public float rotateSpeed;
+    
 
     private Transform monsterTransform;
     private Rigidbody rb;
     private bool chasing;
     private GameObject target;
+    private float timer;
+    private Quaternion targetRotation;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         monsterTransform = gameObject.GetComponent<Transform>();
+        targetRotation = transform.rotation;
     }
 
     private void Update()
@@ -45,6 +52,16 @@ public class MonsterMovement : MonoBehaviour
                     onPatrol = false;
                 }
             }
+
+            timer += Time.deltaTime;
+            
+            if(timer >= rotateInterval)
+            {
+                targetRotation *= Quaternion.Euler(0, rotateAmount, 0);
+
+                timer = 0;
+            }
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
 
         if (chasing)
@@ -54,6 +71,8 @@ public class MonsterMovement : MonoBehaviour
             Vector3 newPosition = rb.position + direction * speed * Time.deltaTime;
 
             rb.MovePosition(newPosition);
+
+            transform.LookAt(target.transform);
         }
     }
 }

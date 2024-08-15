@@ -7,7 +7,6 @@ public class ShadowBehaviour : MonoBehaviour
     public float health;
 
     private ParticleSystem burnParticles;
-    private bool isBurning = false;
     private float previousHealth;
 
     public void Awake()
@@ -29,8 +28,6 @@ public class ShadowBehaviour : MonoBehaviour
 
     public void TakeDamage()
     {
-        Debug.Log(health);
-        isBurning = true;
         if (health > 0)
         {
            health -= Time.deltaTime;
