@@ -165,7 +165,8 @@ public class FirstPersonControls : MonoBehaviour
 
                 if (Vector3.Dot(flashlight.transform.forward, toHit) > Mathf.Cos(Mathf.Deg2Rad * (flashlight.spotAngle / 2f)))
                 {
-                    Destroy(hit.collider.gameObject);
+                    //Destroy(hit.collider.gameObject);
+                    hit.collider.gameObject.GetComponent<ShadowBehaviour>().TakeDamage();
                 }
             }
             Debug.DrawRay(flashlight.transform.position, flashlight.transform.forward * 10, Color.green);
