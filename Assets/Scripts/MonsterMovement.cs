@@ -41,7 +41,7 @@ public class MonsterMovement : MonoBehaviour
 
             LayerMask playerMask = LayerMask.GetMask("Player");
 
-            if (Physics.Raycast(ray, out hit, visionRange, playerMask))
+            if (Physics.Raycast(ray, out hit, visionRange))
             {
                 Debug.Log(hit.collider);
                 // Check if the hit object has the tag "PickUp"
