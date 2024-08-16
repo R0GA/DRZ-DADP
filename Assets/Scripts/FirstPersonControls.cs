@@ -21,6 +21,7 @@ public class FirstPersonControls : MonoBehaviour
     public float sprintSpeed;
     public float baseSpeed;
     public float crouchSpeed;
+    public Vector3 currentCheckpoint;
     // Private variables to store input values and the character controller
     private Vector2 moveInput; // Stores the movement input from the player
     private Vector2 lookInput; // Stores the look input from the player
@@ -269,7 +270,7 @@ public class FirstPersonControls : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, pickUpRange, playerMask))
         {
-            Debug.Log(hit.collider);
+            //Debug.Log(hit.collider);
             // Check if the hit object has the tag "PickUp"
             if (hit.collider.CompareTag("PickUp"))
             {

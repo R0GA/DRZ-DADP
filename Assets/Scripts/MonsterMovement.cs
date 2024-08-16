@@ -43,7 +43,6 @@ public class MonsterMovement : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, visionRange))
             {
-                Debug.Log(hit.collider);
                 // Check if the hit object has the tag "PickUp"
                 if (hit.collider.CompareTag("Player"))
                 {
