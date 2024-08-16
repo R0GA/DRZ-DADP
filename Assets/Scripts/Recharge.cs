@@ -10,7 +10,7 @@ public class Recharge : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<FirstPersonControls>().flashlightBattery += rechargeAmount;
+            other.gameObject.GetComponent<FirstPersonControls>().RechargeFlashlight(rechargeAmount);
             Destroy(gameObject);
         }
     }

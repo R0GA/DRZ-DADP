@@ -16,6 +16,7 @@ public class TeddyScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             introPanel.SetActive(true);
+            Cursor.visible = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -23,10 +24,12 @@ public class TeddyScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             introPanel.SetActive(false);
+            Cursor.visible = false;
         }
     }
     public void ClosePanel()
     {
         introPanel.SetActive(false);
+        Cursor.visible=false;
     }
 }
