@@ -8,6 +8,8 @@ TagManager:
   - PickUp
   - FlashLight
   - Checkpoint
+  - Switch
+  - Door
   layers:
   - Default
   - TransparentFX
