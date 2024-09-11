@@ -244,10 +244,10 @@ Light:
   m_GameObject: {fileID: 244976662}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 1
+  m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -286,11 +286,11 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
+  m_ColorTemperature: 1500
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -305,13 +305,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244976662}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.66612923, y: -0.22873002, z: 0.0018828386, w: 0.709895}
+  m_LocalPosition: {x: -2.27, y: 7.409, z: 6.584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 71.196, y: -88.594, z: -69.566}
 --- !u!114 &244976665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,7 +435,7 @@ Transform:
   m_GameObject: {fileID: 577127417}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.54}
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -876,6 +876,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster
       objectReference: {fileID: 0}
+    - target: {fileID: 4350312276441128875, guid: 204ec3e81e57b8f4c9c6d7448c345986,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a875783c42b9354dabd048deafb7307, type: 2}
     - target: {fileID: 8733559053849352869, guid: 204ec3e81e57b8f4c9c6d7448c345986,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1082,6 +1087,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flashlight
       objectReference: {fileID: 0}
+    - target: {fileID: 6363128820910224843, guid: 72995b95063c62841bb714c7560abe76,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363128820910224843, guid: 72995b95063c62841bb714c7560abe76,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363128820910224843, guid: 72995b95063c62841bb714c7560abe76,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363128820910224843, guid: 72995b95063c62841bb714c7560abe76,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363128820910224843, guid: 72995b95063c62841bb714c7560abe76,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363128820910224843, guid: 72995b95063c62841bb714c7560abe76,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1099,6 +1134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI-Overlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040989430597169200, guid: 8aacd64e088574d4f956f527fa23726b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3791432132245518026, guid: 8aacd64e088574d4f956f527fa23726b,
         type: 3}
@@ -1203,7 +1243,7 @@ PrefabInstance:
     - target: {fileID: 4262864832117665025, guid: 8aacd64e088574d4f956f527fa23726b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4341829903152476994, guid: 8aacd64e088574d4f956f527fa23726b,
         type: 3}
