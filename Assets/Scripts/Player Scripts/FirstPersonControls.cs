@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ public class FirstPersonControls : MonoBehaviour
     public float baseSpeed;
     public float crouchSpeed;
     public Vector3 currentCheckpoint;
+    public string currentInput;
     // Private variables to store input values and the character controller
     private Vector2 moveInput; // Stores the movement input from the player
     private Vector2 lookInput; // Stores the look input from the player
@@ -30,7 +32,6 @@ public class FirstPersonControls : MonoBehaviour
     private Vector3 velocity; // Velocity of the player
     private CharacterController characterController; // Reference to the CharacterController component
     private bool isSprinting;
-    private string currentInput;
     private Controls playerInput;
 
     [Header("SHOOTING SETTINGS")]
@@ -60,12 +61,16 @@ public class FirstPersonControls : MonoBehaviour
     public float flashlightBattery;
     public float maxFlashlightBattery;
     private bool holdingFlashlight = false;
+    public RawImage flashlightControl;
 
     [Header("INTERACT SETTINGS")]
     [Space(5)]
     public Material switchMaterial; // Material to apply when switch is activated
     public GameObject[] objectsToChangeColor; // Array of objects to change color
 
+    [Header("UI SETTINGS")]
+    [Space(5)]
+    public TeddyScript teddyScript;
 
 
     private void Awake()
@@ -74,6 +79,7 @@ public class FirstPersonControls : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         flashlight.enabled = false;
         batteryBar.gameObject.SetActive(false);
+        Cursor.visible = false;
     }
 
     private void OnEnable()
@@ -112,6 +118,8 @@ public class FirstPersonControls : MonoBehaviour
 
         // Subscribe to the interact input event
         playerInput.Player.Interact.performed += ctx => Interact(); // Interact with switch
+
+        playerInput.Player.UIClose.performed += ctx => CloseMenu();
     }
     private void OnInputPerformed(InputAction.CallbackContext context)
     {
@@ -123,7 +131,7 @@ public class FirstPersonControls : MonoBehaviour
         }
         else if (context.control.device is Mouse || context.control.device is Keyboard)
         {
-            currentInput = "Mouse and Keyboard";
+            currentInput = "Keyboard";
             Debug.Log("Mouse and Keyboard detected");
         }
 
@@ -139,14 +147,8 @@ public class FirstPersonControls : MonoBehaviour
         ApplyGravity();
         FlashlightDrain();
         CheckFlashlightHit();
-        DetectCurrentDevice();
     }
    
-    void DetectCurrentDevice()
-    {
-       
-    }
-
     public void FlashlightDrain()
     {
         if (flashlightOn && flashlightBattery > 0)
@@ -162,6 +164,33 @@ public class FirstPersonControls : MonoBehaviour
             }
         }
         batteryBar.value = flashlightBattery / maxFlashlightBattery;
+        
+        if(currentInput == "Keyboard")
+        {
+            byte[] fileData = File.ReadAllBytes("Assets/Sprites/MouseClick.png");
+            Texture2D texture = new Texture2D(2, 2); // Create a new texture
+            texture.LoadImage(fileData); // Load the image data into the texture
+            flashlightControl.texture = texture;
+            Debug.Log(texture);
+        }
+        else if (currentInput == "Gamepad")
+        {
+            byte[] fileData = File.ReadAllBytes("Assets/Sprites/Button.png");
+            Texture2D texture = new Texture2D(2, 2); // Create a new texture
+            texture.LoadImage(fileData); // Load the image data into the texture
+            flashlightControl.texture = texture;
+            Debug.Log(texture);
+        }
+
+    }
+
+    public void CloseMenu()
+    {
+        if(teddyScript.uiActive == true)
+        {
+            teddyScript.ClosePanel();
+        }
+
     }
 
     public void RechargeFlashlight(float rechargeAmount)
