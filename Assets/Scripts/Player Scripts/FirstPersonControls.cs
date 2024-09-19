@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.UI.Image;
 
@@ -29,6 +30,8 @@ public class FirstPersonControls : MonoBehaviour
     private Vector3 velocity; // Velocity of the player
     private CharacterController characterController; // Reference to the CharacterController component
     private bool isSprinting;
+    private string currentInput;
+    private Controls playerInput;
 
     [Header("SHOOTING SETTINGS")]
     [Space(5)]
@@ -76,7 +79,7 @@ public class FirstPersonControls : MonoBehaviour
     private void OnEnable()
     {
         // Create a new instance of the input actions
-        var playerInput = new Controls();
+        /*var*/ playerInput = new Controls();
 
         // Enable the input actions
         playerInput.Player.Enable();
@@ -86,7 +89,9 @@ public class FirstPersonControls : MonoBehaviour
 
         // Subscribe to the movement input events
         playerInput.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>(); // Update moveInput when movement input is performed
+        playerInput.Player.Movement.performed += OnInputPerformed;
         playerInput.Player.Movement.canceled += ctx => moveInput = Vector2.zero; // Reset moveInput when movement input is canceled
+        playerInput.Player.Movement.canceled += OnInputPerformed;
 
         // Subscribe to the look input events
         playerInput.Player.LookAround.performed += ctx => lookInput = ctx.ReadValue<Vector2>(); // Update lookInput when look input is performed
@@ -108,6 +113,23 @@ public class FirstPersonControls : MonoBehaviour
         // Subscribe to the interact input event
         playerInput.Player.Interact.performed += ctx => Interact(); // Interact with switch
     }
+    private void OnInputPerformed(InputAction.CallbackContext context)
+    {
+        // Determine the input device used
+        if (context.control.device is Gamepad)
+        {
+            currentInput = "Gamepad";
+            Debug.Log("Gamepad detected");
+        }
+        else if (context.control.device is Mouse || context.control.device is Keyboard)
+        {
+            currentInput = "Mouse and Keyboard";
+            Debug.Log("Mouse and Keyboard detected");
+        }
+
+        // Example: Use lastInputDevice for your game logic
+        Debug.Log("Last Input Device: " + currentInput);
+    }
 
     private void Update()
     {
@@ -117,6 +139,12 @@ public class FirstPersonControls : MonoBehaviour
         ApplyGravity();
         FlashlightDrain();
         CheckFlashlightHit();
+        DetectCurrentDevice();
+    }
+   
+    void DetectCurrentDevice()
+    {
+       
     }
 
     public void FlashlightDrain()

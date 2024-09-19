@@ -107,6 +107,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UI-Close"",
+                    ""type"": ""Button"",
+                    ""id"": ""6684a51d-7009-4312-9b31-ac2385e3f516"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -377,7 +386,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""50084c43-7bcc-456b-999c-57a597950ebc"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -404,6 +413,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40b6a7f8-0920-4c22-adb9-04a6348a0f87"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UI-Close"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da95ce1c-772d-4d04-a503-89a4919f1cf2"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UI-Close"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -446,6 +477,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_UIClose = m_Player.FindAction("UI-Close", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -516,6 +548,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_UIClose;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -529,6 +562,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @UIClose => m_Wrapper.m_Player_UIClose;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -565,6 +599,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @UIClose.started += instance.OnUIClose;
+            @UIClose.performed += instance.OnUIClose;
+            @UIClose.canceled += instance.OnUIClose;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -596,6 +633,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @UIClose.started -= instance.OnUIClose;
+            @UIClose.performed -= instance.OnUIClose;
+            @UIClose.canceled -= instance.OnUIClose;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -642,5 +682,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnFlashlight(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnUIClose(InputAction.CallbackContext context);
     }
 }
