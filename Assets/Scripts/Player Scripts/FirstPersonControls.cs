@@ -127,16 +127,16 @@ public class FirstPersonControls : MonoBehaviour
         if (context.control.device is Gamepad)
         {
             currentInput = "Gamepad";
-            Debug.Log("Gamepad detected");
+            //Debug.Log("Gamepad detected");
         }
         else if (context.control.device is Mouse || context.control.device is Keyboard)
         {
             currentInput = "Keyboard";
-            Debug.Log("Mouse and Keyboard detected");
+            //Debug.Log("Mouse and Keyboard detected");
         }
 
         // Example: Use lastInputDevice for your game logic
-        Debug.Log("Last Input Device: " + currentInput);
+       // Debug.Log("Last Input Device: " + currentInput);
     }
 
     private void Update()
@@ -165,13 +165,14 @@ public class FirstPersonControls : MonoBehaviour
         }
         batteryBar.value = flashlightBattery / maxFlashlightBattery;
         
+       /* 
         if(currentInput == "Keyboard")
         {
             byte[] fileData = File.ReadAllBytes("Assets/Sprites/MouseClick.png");
             Texture2D texture = new Texture2D(2, 2); // Create a new texture
             texture.LoadImage(fileData); // Load the image data into the texture
             flashlightControl.texture = texture;
-            Debug.Log(texture);
+            //Debug.Log(texture);
         }
         else if (currentInput == "Gamepad")
         {
@@ -179,9 +180,9 @@ public class FirstPersonControls : MonoBehaviour
             Texture2D texture = new Texture2D(2, 2); // Create a new texture
             texture.LoadImage(fileData); // Load the image data into the texture
             flashlightControl.texture = texture;
-            Debug.Log(texture);
+            //Debug.Log(texture);
         }
-
+       */
     }
 
     public void CloseMenu()

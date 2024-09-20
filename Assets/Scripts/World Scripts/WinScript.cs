@@ -7,18 +7,13 @@ public class WinScript : MonoBehaviour
 {
     public GameObject winPanel;
 
-    private void Awake()
-    {
-        winPanel.SetActive(false);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             winPanel.SetActive(true);
-            Time.timeScale = 0;
-            gameObject.SetActive(false);
+            Time.timeScale = 0f;
         }
     }
+
 }
