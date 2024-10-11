@@ -11,7 +11,7 @@ public class MonsterMovement : MonoBehaviour
     public float rotateInterval;
     public float rotateAmount;
     public float rotateSpeed;
-    
+    public Animator animator;
 
     private Transform monsterTransform;
     private Rigidbody rb;
@@ -31,6 +31,7 @@ public class MonsterMovement : MonoBehaviour
     {
         if (onPatrol)
         {
+            Vector3 monsterRayCast = new Vector3(monsterTransform.position.x, monsterTransform.position.y + 1, monsterTransform.position.z);
             // Perform a raycast from the camera's position forward
             Ray ray = new Ray(monsterTransform.position, monsterTransform.forward);
             RaycastHit hit;
@@ -42,12 +43,13 @@ public class MonsterMovement : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, visionRange))
             {
-                // Check if the hit object has the tag "PickUp"
+                // Check if the hit object has the tag "Player"
                 if (hit.collider.CompareTag("Player"))
                 {
                     target = hit.collider.gameObject;
                     chasing = true;
                     onPatrol = false;
+                    animator.SetInteger("AnimState", 1);
                 }
             }
 
@@ -64,6 +66,8 @@ public class MonsterMovement : MonoBehaviour
 
         if (chasing)
         {
+            animator.SetInteger("AnimState", 1);
+
             Vector3 direction = (target.transform.position - monsterTransform.position).normalized;
 
             Vector3 newPosition = rb.position + direction * speed * Time.deltaTime;
