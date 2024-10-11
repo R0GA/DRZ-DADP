@@ -10,6 +10,8 @@ public class TeddyScript : MonoBehaviour
     public bool uiActive;
     public TMP_Text closeTXT;
     public FirstPersonControls player;
+    public GameObject ctrlrIntoImg;
+    public GameObject mnkIntoImg;
 
     private void Awake()
     {
@@ -23,10 +25,14 @@ public class TeddyScript : MonoBehaviour
             if (player.currentInput == "Keyboard")
             {
                 closeTXT.text = "Press Escape To Close";
+                ctrlrIntoImg.SetActive(false);
+                mnkIntoImg.SetActive(true);
             }
             else if (player.currentInput == "Gamepad")
             {
                 closeTXT.text = "Press Start To Close";
+                mnkIntoImg.SetActive(false);
+                ctrlrIntoImg.SetActive(true);
             }
 
             introPanel.SetActive(true);

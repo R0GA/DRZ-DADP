@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -71,6 +72,12 @@ public class FirstPersonControls : MonoBehaviour
     [Header("UI SETTINGS")]
     [Space(5)]
     public TeddyScript teddyScript;
+    public GameObject ctrlrFlashlightImg;
+    public GameObject mnkFlashlightImg;
+    public TMP_Text pickUpText;
+    public GameObject ctrlrPickup;
+    public GameObject mnkPickup;
+
 
 
     private void Awake()
@@ -79,6 +86,7 @@ public class FirstPersonControls : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         flashlight.enabled = false;
         batteryBar.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
     }
 
@@ -101,7 +109,9 @@ public class FirstPersonControls : MonoBehaviour
 
         // Subscribe to the look input events
         playerInput.Player.LookAround.performed += ctx => lookInput = ctx.ReadValue<Vector2>(); // Update lookInput when look input is performed
+        playerInput.Player.LookAround.performed += OnInputPerformed;
         playerInput.Player.LookAround.canceled += ctx => lookInput = Vector2.zero; // Reset lookInput when look input is canceled
+        playerInput.Player.LookAround.performed += OnInputPerformed;
 
         // Subscribe to the jump input event
         playerInput.Player.Jump.performed += ctx => Jump(); // Call the Jump method when jump input is performed
@@ -147,6 +157,23 @@ public class FirstPersonControls : MonoBehaviour
         ApplyGravity();
         FlashlightDrain();
         CheckFlashlightHit();
+        CheckForPickUp();
+
+
+        if (holdingFlashlight)
+        {
+            if (currentInput == "Gamepad")
+            {
+                mnkFlashlightImg.SetActive(false);
+                ctrlrFlashlightImg.SetActive(true);
+            }
+            else if (currentInput == "Keyboard")
+            {
+                ctrlrFlashlightImg.SetActive(false);
+                mnkFlashlightImg.SetActive(true);
+            }
+        }
+
     }
    
     public void FlashlightDrain()
@@ -164,25 +191,6 @@ public class FirstPersonControls : MonoBehaviour
             }
         }
         batteryBar.value = flashlightBattery / maxFlashlightBattery;
-        
-       /* 
-        if(currentInput == "Keyboard")
-        {
-            byte[] fileData = File.ReadAllBytes("Assets/Sprites/MouseClick.png");
-            Texture2D texture = new Texture2D(2, 2); // Create a new texture
-            texture.LoadImage(fileData); // Load the image data into the texture
-            flashlightControl.texture = texture;
-            //Debug.Log(texture);
-        }
-        else if (currentInput == "Gamepad")
-        {
-            byte[] fileData = File.ReadAllBytes("Assets/Sprites/Button.png");
-            Texture2D texture = new Texture2D(2, 2); // Create a new texture
-            texture.LoadImage(fileData); // Load the image data into the texture
-            flashlightControl.texture = texture;
-            //Debug.Log(texture);
-        }
-       */
     }
 
     public void CloseMenu()
@@ -190,6 +198,7 @@ public class FirstPersonControls : MonoBehaviour
         if(teddyScript.uiActive == true)
         {
             teddyScript.ClosePanel();
+            teddyScript.uiActive = false;
         }
 
     }
@@ -376,6 +385,17 @@ public class FirstPersonControls : MonoBehaviour
 
                 holdingFlashlight = true;
                 batteryBar.gameObject.SetActive(true);
+
+                if (currentInput == "Gamepad")
+                {
+                    mnkFlashlightImg.SetActive(false);
+                    ctrlrFlashlightImg.SetActive(true);
+                }
+                else if (currentInput == "Keyboard")
+                {
+                    ctrlrFlashlightImg.SetActive(false);
+                    mnkFlashlightImg.SetActive(true);
+                }
             }
         }
     }
@@ -439,5 +459,55 @@ public class FirstPersonControls : MonoBehaviour
         }
     }
 
+    private void CheckForPickUp()
+    {
+        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+        RaycastHit hit;
+
+        LayerMask playerVolumes = LayerMask.GetMask("Player");
+        playerVolumes = ~playerVolumes;
+
+        // Perform raycast to detect objects
+        if (Physics.Raycast(ray, out hit, pickUpRange, playerVolumes))
+        {
+            Debug.Log(hit.collider);
+            // Check if the object has the "PickUp" tag
+            if (hit.collider.CompareTag("PickUp") || hit.collider.CompareTag("FlashLight"))
+            {
+                if (teddyScript.uiActive == false && holdingFlashlight == false)
+                {
+                    // Display the pick-up text
+                    pickUpText.gameObject.SetActive(true);
+                    pickUpText.text = hit.collider.gameObject.name;
+
+                    if (currentInput == "Gamepad")
+                    {
+                        mnkPickup.SetActive(false);
+                        ctrlrPickup.SetActive(true);
+                    }
+                    else if (currentInput == "Keyboard")
+                    {
+                        ctrlrPickup.SetActive(false);
+                        mnkPickup.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                // Hide the pick-up text if not looking at a "PickUp" object
+                pickUpText.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            // Hide the text if not looking at any object
+            pickUpText.gameObject.SetActive(false);
+        }
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 
 }

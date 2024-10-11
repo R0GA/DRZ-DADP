@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class WinScript : MonoBehaviour
 {
     public GameObject winPanel;
@@ -12,6 +13,7 @@ public class WinScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             winPanel.SetActive(true);
+            UnityEngine.Cursor.visible = true;
             Time.timeScale = 0f;
         }
     }
