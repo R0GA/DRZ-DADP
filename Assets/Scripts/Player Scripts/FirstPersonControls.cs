@@ -112,7 +112,7 @@ public class FirstPersonControls : MonoBehaviour
         // Subscribe to the pick-up input event
         playerInput.Player.PickUp.performed += ctx => PickUpObject(); // Call the PickUpObject method when pick-up input is performed
 
-        playerInput.Player.Crouch.performed += ctx => ToggleCrouch();
+       // playerInput.Player.Crouch.performed += ctx => ToggleCrouch();
 
         playerInput.Player.Flashlight.performed += ctx => ToggleFlashlight();
 
