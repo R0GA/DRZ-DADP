@@ -26,12 +26,13 @@ public class FirstPersonControls : MonoBehaviour
     public float crouchSpeed;
     public Vector3 currentCheckpoint;
     public string currentInput;
+    public bool isMoving = false;
     // Private variables to store input values and the character controller
     private Vector2 moveInput; // Stores the movement input from the player
     private Vector2 lookInput; // Stores the look input from the player
     private float verticalLookRotation = 0f; // Keeps track of vertical camera rotation for clamping
     private Vector3 velocity; // Velocity of the player
-    private CharacterController characterController; // Reference to the CharacterController component
+    public CharacterController characterController; // Reference to the CharacterController component
     private bool isSprinting;
     private Controls playerInput;
 
@@ -61,7 +62,7 @@ public class FirstPersonControls : MonoBehaviour
     public Slider batteryBar;
     public float flashlightBattery;
     public float maxFlashlightBattery;
-    private bool holdingFlashlight = false;
+    public bool holdingFlashlight = false;
     public RawImage flashlightControl;
 
     [Header("INTERACT SETTINGS")]
@@ -104,8 +105,10 @@ public class FirstPersonControls : MonoBehaviour
         // Subscribe to the movement input events
         playerInput.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>(); // Update moveInput when movement input is performed
         playerInput.Player.Movement.performed += OnInputPerformed;
+        playerInput.Player.Movement.performed += ctx => isMoving = true;
         playerInput.Player.Movement.canceled += ctx => moveInput = Vector2.zero; // Reset moveInput when movement input is canceled
         playerInput.Player.Movement.canceled += OnInputPerformed;
+        playerInput.Player.Movement.canceled += ctx => isMoving = false;
 
         // Subscribe to the look input events
         playerInput.Player.LookAround.performed += ctx => lookInput = ctx.ReadValue<Vector2>(); // Update lookInput when look input is performed
@@ -175,7 +178,7 @@ public class FirstPersonControls : MonoBehaviour
         }
 
     }
-   
+
     public void FlashlightDrain()
     {
         if (flashlightOn && flashlightBattery > 0)
@@ -366,7 +369,7 @@ public class FirstPersonControls : MonoBehaviour
                 heldObject.GetComponent<Rigidbody>().isKinematic = true; // Disable physics
 
                 // Attach the object to the hold position
-                heldObject.transform.position = holdPosition.position;
+                heldObject.transform.position = new Vector3(holdPosition.position.x +90, holdPosition.position.y + 135, holdPosition.position.z);
                 heldObject.transform.rotation = holdPosition.rotation;
                 heldObject.transform.parent = holdPosition;
 
@@ -382,6 +385,7 @@ public class FirstPersonControls : MonoBehaviour
                 heldObject.transform.position = holdPosition.position;
                 heldObject.transform.rotation = holdPosition.rotation;
                 heldObject.transform.parent = holdPosition;
+                
 
                 holdingFlashlight = true;
                 batteryBar.gameObject.SetActive(true);
