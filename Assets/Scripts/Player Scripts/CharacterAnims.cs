@@ -46,8 +46,5 @@ public class CharacterAnims : MonoBehaviour
         }
 
         animator.SetInteger("AnimState", animState);
-        Debug.Log(fpc.characterController.velocity.magnitude)   ;
-        
-
     }
 }
