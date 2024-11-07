@@ -100,7 +100,7 @@ ModelImporter:
       takeName: Armature|Jump
       internalID: 1079665108409675491
       firstFrame: 0
-      lastFrame: 24
+      lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -129,7 +129,7 @@ ModelImporter:
       takeName: Armature|Jump - Flashlight
       internalID: -7362921408761954901
       firstFrame: 0
-      lastFrame: 24
+      lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -187,7 +187,7 @@ ModelImporter:
       takeName: Armature|Walk
       internalID: 8349542763059015795
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -216,7 +216,7 @@ ModelImporter:
       takeName: Armature|Walk - Flashlight
       internalID: -8095696246357802735
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

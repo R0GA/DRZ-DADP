@@ -30,7 +30,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Toon_Ramp_Offset: 0.2
     - _Ambient: 0
+    - _Toon_Ramp_Offset_Point: 0.2
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &5738542977942270648
