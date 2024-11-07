@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 
 public class MonsterMovement : MonoBehaviour
@@ -19,12 +20,14 @@ public class MonsterMovement : MonoBehaviour
     private GameObject target;
     private float timer;
     private Quaternion targetRotation;
+    private Vector3 startPos;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         monsterTransform = gameObject.GetComponent<Transform>();
         targetRotation = transform.rotation;
+        startPos = transform.position;
     }
 
     private void Update()
@@ -75,6 +78,23 @@ public class MonsterMovement : MonoBehaviour
             rb.MovePosition(newPosition);
 
             transform.LookAt(target.transform);
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    { 
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Vector3 resetLocation = other.gameObject.GetComponent<FirstPersonControls>().currentCheckpoint;
+
+            other.gameObject.GetComponent<CharacterController>().enabled = false;
+            other.gameObject.transform.position = resetLocation;
+            other.gameObject.GetComponent<CharacterController>().enabled = true;
+
+            chasing = false;
+            onPatrol = true;
+            transform.position = startPos;
+            animator.SetInteger("AnimState", 0);
         }
     }
 }
