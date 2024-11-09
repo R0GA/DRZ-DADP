@@ -79,6 +79,9 @@ public class FirstPersonControls : MonoBehaviour
     public TMP_Text pickUpText;
     public GameObject ctrlrPickup;
     public GameObject mnkPickup;
+    public GameObject pauseUI;
+    public GameObject overlayUI;
+    private bool paused = false;
 
     [Header("Audio SETTINGS")]
     [Space(5)]
@@ -248,12 +251,25 @@ public class FirstPersonControls : MonoBehaviour
 
     public void CloseMenu()
     {
-        if(teddyScript.uiActive == true)
+        if (teddyScript.uiActive == false && paused)
+        {
+            Resume();
+        }
+        else if (teddyScript.uiActive == false)
+        {
+            pauseUI.SetActive(true);
+            overlayUI.SetActive(false);
+
+            Time.timeScale = 0;
+            paused = true;
+            Cursor.visible = true;
+        }
+
+        if (teddyScript.uiActive == true)
         {
             teddyScript.ClosePanel();
             teddyScript.uiActive = false;
         }
-
     }
 
     public void RechargeFlashlight(float rechargeAmount)
@@ -263,20 +279,23 @@ public class FirstPersonControls : MonoBehaviour
 
     public void ToggleFlashlight()
     {
-        if (holdingFlashlight)
+        if (!paused)
         {
-            if (!flashlightOn && flashlightBattery > 0)
+            if (holdingFlashlight)
             {
-                flashlightOn = true;
-                flashlight.enabled = true;
-                flashlightAudio.PlayOneShot(click);
+                if (!flashlightOn && flashlightBattery > 0)
+                {
+                    flashlightOn = true;
+                    flashlight.enabled = true;
+                    flashlightAudio.PlayOneShot(click);
+                }
+                else
+                {
+                    flashlightOn = false;
+                    flashlight.enabled = false;
+                    flashlightAudio.PlayOneShot(click);
+                }
             }
-            else
-            {
-                flashlightOn = false;
-                flashlight.enabled = false;
-                flashlightAudio.PlayOneShot(click);
-            }    
         }
     }
 
@@ -327,19 +346,22 @@ public class FirstPersonControls : MonoBehaviour
 
     public void LookAround()
     {
-        // Get horizontal and vertical look inputs and adjust based on sensitivity
-        float LookX = lookInput.x * lookSpeed;
-        float LookY = lookInput.y * lookSpeed;
+        if (!paused)
+        {
+            // Get horizontal and vertical look inputs and adjust based on sensitivity
+            float LookX = lookInput.x * lookSpeed;
+            float LookY = lookInput.y * lookSpeed;
 
-        // Horizontal rotation: Rotate the player object around the y-axis
-        transform.Rotate(0, LookX, 0);
+            // Horizontal rotation: Rotate the player object around the y-axis
+            transform.Rotate(0, LookX, 0);
 
-        // Vertical rotation: Adjust the vertical look rotation and clamp it to prevent flipping
-        verticalLookRotation -= LookY;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+            // Vertical rotation: Adjust the vertical look rotation and clamp it to prevent flipping
+            verticalLookRotation -= LookY;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
-        // Apply the clamped vertical rotation to the player camera
-        playerCamera.localEulerAngles = new Vector3(verticalLookRotation, 0, 0);
+            // Apply the clamped vertical rotation to the player camera
+            playerCamera.localEulerAngles = new Vector3(verticalLookRotation, 0, 0);
+        }
     }
 
     public void ApplyGravity()
@@ -575,4 +597,12 @@ public class FirstPersonControls : MonoBehaviour
         Application.Quit();
     }
 
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        paused = false;
+        pauseUI.SetActive(false);
+        overlayUI.SetActive(true);
+        Cursor.visible = false;
+    }
 }
