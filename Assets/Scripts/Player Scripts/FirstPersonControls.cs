@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -79,6 +80,20 @@ public class FirstPersonControls : MonoBehaviour
     public GameObject ctrlrPickup;
     public GameObject mnkPickup;
 
+    [Header("Audio SETTINGS")]
+    [Space(5)]
+    public AudioClip walkAudio;
+    public AudioClip runAudio;
+    public AudioClip jumpAudio;
+    private bool walkAudioOn = false;
+    private bool runAudioOn = false;
+    [SerializeField]
+    private AudioSource audioSource1;
+    [SerializeField]
+    private AudioSource audioSource2;
+    public AudioSource flashlightAudio;
+    public AudioClip click;
+
 
 
     private void Awake()
@@ -89,6 +104,7 @@ public class FirstPersonControls : MonoBehaviour
         batteryBar.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+        audioSource1.volume = 5;
     }
 
     private void OnEnable()
@@ -161,6 +177,7 @@ public class FirstPersonControls : MonoBehaviour
         FlashlightDrain();
         CheckFlashlightHit();
         CheckForPickUp();
+        DoAudio();
 
 
         if (holdingFlashlight)
@@ -176,7 +193,40 @@ public class FirstPersonControls : MonoBehaviour
                 mnkFlashlightImg.SetActive(true);
             }
         }
+    }
 
+    public void DoAudio()
+    {
+        if(isMoving)
+        {
+           if(!walkAudioOn && characterController.isGrounded)
+            {
+                audioSource1.clip = walkAudio;
+                audioSource1.Play();
+                walkAudioOn = true;
+                audioSource1.loop = true;
+            }
+           if(isSprinting && !runAudioOn && characterController.isGrounded)
+            {
+                audioSource2.clip = runAudio;
+                runAudioOn = true;
+                audioSource2.Play();
+                audioSource2.loop = true;
+            }
+            if (!isSprinting && runAudioOn)
+            {
+                audioSource2.Stop();
+                runAudioOn = false;
+            }
+        }
+        else if(!isMoving)
+        {
+            audioSource1.Stop();
+            walkAudioOn = false;
+            audioSource2.Stop();
+            runAudioOn = false;
+
+        }
     }
 
     public void FlashlightDrain()
@@ -219,11 +269,13 @@ public class FirstPersonControls : MonoBehaviour
             {
                 flashlightOn = true;
                 flashlight.enabled = true;
+                flashlightAudio.PlayOneShot(click);
             }
             else
             {
                 flashlightOn = false;
                 flashlight.enabled = false;
+                flashlightAudio.PlayOneShot(click);
             }    
         }
     }
@@ -259,8 +311,9 @@ public class FirstPersonControls : MonoBehaviour
             moveSpeed = sprintSpeed;
         else if (isCrouching == true && characterController.isGrounded == true)
             moveSpeed = crouchSpeed;
-        else if (isSprinting ==false && isCrouching == false && characterController.isGrounded == true)
+        else if (isSprinting == false && isCrouching == false && characterController.isGrounded == true)
             moveSpeed = baseSpeed;
+      
 
         // Create a movement vector based on the input
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
@@ -306,6 +359,14 @@ public class FirstPersonControls : MonoBehaviour
         {
             // Calculate the jump velocity
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            audioSource2.clip = jumpAudio;
+            audioSource2.Play();
+            audioSource2.loop = false;
+            runAudioOn = false;
+
+            audioSource1.Stop();
+            walkAudioOn = false;
         }
     }
 

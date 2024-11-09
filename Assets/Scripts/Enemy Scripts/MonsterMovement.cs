@@ -13,6 +13,8 @@ public class MonsterMovement : MonoBehaviour
     public float rotateAmount;
     public float rotateSpeed;
     public Animator animator;
+    public AudioClip patrolAudio;
+    public AudioClip chaseAudio;
 
     private Transform monsterTransform;
     private Rigidbody rb;
@@ -21,19 +23,35 @@ public class MonsterMovement : MonoBehaviour
     private float timer;
     private Quaternion targetRotation;
     private Vector3 startPos;
+    private AudioSource audioSource;
+    private bool audioOn;
 
     private void Awake()
     {
+        audioSource = GetComponentInChildren<AudioSource>();
+        audioSource.clip = patrolAudio;
+        audioSource.Play();
+        audioOn = true;
         rb = GetComponent<Rigidbody>();
         monsterTransform = gameObject.GetComponent<Transform>();
         targetRotation = transform.rotation;
         startPos = transform.position;
+
+
     }
 
     private void Update()
     {
         if (onPatrol)
         {
+            if (!audioOn)
+            {
+                audioSource.clip = patrolAudio;
+                audioSource.Play();
+                audioOn = true;
+            }
+            
+
             Vector3 monsterRayCast = new Vector3(monsterTransform.position.x, monsterTransform.position.y + 1, monsterTransform.position.z);
             // Perform a raycast from the camera's position forward
             Ray ray = new Ray(monsterTransform.position, monsterTransform.forward);
@@ -52,6 +70,7 @@ public class MonsterMovement : MonoBehaviour
                     target = hit.collider.gameObject;
                     chasing = true;
                     onPatrol = false;
+                    audioOn = false;
                     animator.SetInteger("AnimState", 1);
                 }
             }
@@ -69,6 +88,14 @@ public class MonsterMovement : MonoBehaviour
 
         if (chasing)
         {
+
+            if (!audioOn)
+            {
+                audioSource.clip = chaseAudio;
+                audioSource.Play();
+                audioOn = true;
+            }
+
             animator.SetInteger("AnimState", 1);
 
             Vector3 direction = (target.transform.position - monsterTransform.position).normalized;
@@ -93,6 +120,7 @@ public class MonsterMovement : MonoBehaviour
 
             chasing = false;
             onPatrol = true;
+            audioOn = false;    
             transform.position = startPos;
             animator.SetInteger("AnimState", 0);
         }
