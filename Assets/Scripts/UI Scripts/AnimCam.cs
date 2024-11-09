@@ -15,6 +15,13 @@ public class AnimCam : MonoBehaviour
     private Camera animCam;
     [SerializeField]
     private UIManager uiManager;
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip click;
+    [SerializeField]
+    private AudioClip laugh;
+
 
     public void Play()
     {
@@ -29,6 +36,7 @@ public class AnimCam : MonoBehaviour
         }
 
         StartCoroutine(PlayAnimationAndSwitchScene());
+        StartCoroutine(PlayAudio());
     }
 
     IEnumerator PlayAnimationAndSwitchScene()
@@ -36,6 +44,12 @@ public class AnimCam : MonoBehaviour
         yield return new WaitForSeconds(animLength);
         
         SceneManager.LoadScene("Greybox");
+    }
+    IEnumerator PlayAudio()
+    {
+        yield return new WaitForSeconds(2);
+        audioSource.PlayOneShot(click);
+        audioSource.PlayOneShot(laugh);
     }
 
 }

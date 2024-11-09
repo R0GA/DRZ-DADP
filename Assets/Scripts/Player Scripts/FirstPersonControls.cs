@@ -200,35 +200,37 @@ public class FirstPersonControls : MonoBehaviour
 
     public void DoAudio()
     {
-        if(isMoving)
+        if (!paused)
         {
-           if(!walkAudioOn && characterController.isGrounded)
+            if (isMoving)
             {
-                audioSource1.clip = walkAudio;
-                audioSource1.Play();
-                walkAudioOn = true;
-                audioSource1.loop = true;
+                if (!walkAudioOn && characterController.isGrounded)
+                {
+                    audioSource1.clip = walkAudio;
+                    audioSource1.Play();
+                    walkAudioOn = true;
+                    audioSource1.loop = true;
+                }
+                if (isSprinting && !runAudioOn && characterController.isGrounded)
+                {
+                    audioSource2.clip = runAudio;
+                    runAudioOn = true;
+                    audioSource2.Play();
+                    audioSource2.loop = true;
+                }
+                if (!isSprinting && runAudioOn)
+                {
+                    audioSource2.Stop();
+                    runAudioOn = false;
+                }
             }
-           if(isSprinting && !runAudioOn && characterController.isGrounded)
+            else if (!isMoving && characterController.isGrounded)
             {
-                audioSource2.clip = runAudio;
-                runAudioOn = true;
-                audioSource2.Play();
-                audioSource2.loop = true;
-            }
-            if (!isSprinting && runAudioOn)
-            {
+                audioSource1.Stop();
+                walkAudioOn = false;
                 audioSource2.Stop();
                 runAudioOn = false;
             }
-        }
-        else if(!isMoving)
-        {
-            audioSource1.Stop();
-            walkAudioOn = false;
-            audioSource2.Stop();
-            runAudioOn = false;
-
         }
     }
 
@@ -263,6 +265,11 @@ public class FirstPersonControls : MonoBehaviour
             Time.timeScale = 0;
             paused = true;
             Cursor.visible = true;
+
+            audioSource1.Stop();
+            walkAudioOn = false;
+            audioSource2.Stop();
+            runAudioOn= false;
         }
 
         if (teddyScript.uiActive == true)
@@ -381,9 +388,9 @@ public class FirstPersonControls : MonoBehaviour
         {
             // Calculate the jump velocity
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
-            audioSource2.clip = jumpAudio;
-            audioSource2.Play();
+            
+            audioSource2.Stop();
+            audioSource2.PlayOneShot(jumpAudio);
             audioSource2.loop = false;
             runAudioOn = false;
 

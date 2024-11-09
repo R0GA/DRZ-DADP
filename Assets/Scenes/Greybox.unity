@@ -7874,6 +7874,11 @@ PrefabInstance:
       objectReference: {fileID: 690702133}
     - target: {fileID: 8391897079691241177, guid: 61698ac9e3ea1d34088a784ec3714b97,
         type: 3}
+      propertyPath: flashlightBattery
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391897079691241177, guid: 61698ac9e3ea1d34088a784ec3714b97,
+        type: 3}
       propertyPath: flashlightControl
       value: 
       objectReference: {fileID: 0}
@@ -7882,6 +7887,11 @@ PrefabInstance:
       propertyPath: ctrlrFlashlightImg
       value: 
       objectReference: {fileID: 1495465361}
+    - target: {fileID: 8391897079691241177, guid: 61698ac9e3ea1d34088a784ec3714b97,
+        type: 3}
+      propertyPath: maxFlashlightBattery
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8391897079691241177, guid: 61698ac9e3ea1d34088a784ec3714b97,
         type: 3}
       propertyPath: objectsToChangeColor.Array.size
@@ -15041,12 +15051,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7252389af6f58b04e9602ad571498cc0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.21
+      value: 9.354
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7252389af6f58b04e9602ad571498cc0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.796
+      value: -6.418
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7252389af6f58b04e9602ad571498cc0,
         type: 3}
@@ -36104,7 +36114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fbee89f6f7d83478cae7a7476b1758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeAmount: 30
+  rechargeAmount: 50
 --- !u!64 &792686252
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -36793,7 +36803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fbee89f6f7d83478cae7a7476b1758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeAmount: 30
+  rechargeAmount: 50
 --- !u!64 &859984727
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -45554,7 +45564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fbee89f6f7d83478cae7a7476b1758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeAmount: 30
+  rechargeAmount: 50
 --- !u!64 &1131143513
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -61326,7 +61336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fbee89f6f7d83478cae7a7476b1758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeAmount: 30
+  rechargeAmount: 50
 --- !u!64 &1803891925
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -62012,7 +62022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fbee89f6f7d83478cae7a7476b1758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeAmount: 30
+  rechargeAmount: 50
 --- !u!64 &1843330178
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -67480,7 +67490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fbee89f6f7d83478cae7a7476b1758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeAmount: 30
+  rechargeAmount: 50
 --- !u!64 &1898681239
 MeshCollider:
   m_ObjectHideFlags: 0

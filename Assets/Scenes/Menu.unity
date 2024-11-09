@@ -3213,6 +3213,7 @@ GameObject:
   - component: {fileID: 606047536}
   - component: {fileID: 606047534}
   - component: {fileID: 606047538}
+  - component: {fileID: 606047539}
   m_Layer: 0
   m_Name: AnimCam
   m_TagString: Untagged
@@ -3351,6 +3352,14 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!81 &606047539
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606047533}
+  m_Enabled: 1
 --- !u!1001 &620650365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9025,6 +9034,9 @@ MonoBehaviour:
   mainCam: {fileID: 1680153303}
   animCam: {fileID: 606047536}
   uiManager: {fileID: 1813701219}
+  audioSource: {fileID: 1500250267}
+  click: {fileID: 8300000, guid: 783007601ee8350498c14f918980cb58, type: 3}
+  laugh: {fileID: 8300000, guid: 7eac0ac3ebe1bff41adb15b7fe7a5ae6, type: 3}
 --- !u!1001 &1847985055
 PrefabInstance:
   m_ObjectHideFlags: 0
