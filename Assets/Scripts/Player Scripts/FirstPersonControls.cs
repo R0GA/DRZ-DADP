@@ -81,7 +81,7 @@ public class FirstPersonControls : MonoBehaviour
     public GameObject mnkPickup;
     public GameObject pauseUI;
     public GameObject overlayUI;
-    private bool paused = false;
+    public bool paused = false;
 
     [Header("Audio SETTINGS")]
     [Space(5)]

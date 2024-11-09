@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 public class WinScript : MonoBehaviour
 {
     public GameObject winPanel;
+    [SerializeField]
+    private FirstPersonControls fpc;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,6 +17,7 @@ public class WinScript : MonoBehaviour
             winPanel.SetActive(true);
             UnityEngine.Cursor.visible = true;
             Time.timeScale = 0f;
+            fpc.paused = true;
         }
     }
 
